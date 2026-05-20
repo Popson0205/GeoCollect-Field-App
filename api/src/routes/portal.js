@@ -215,7 +215,6 @@ module.exports = async function (fastify) {
     await pool.query('DELETE FROM scheduled_exports WHERE id = $1 AND created_by = $2', [req.params.id, req.user.id]);
     return reply.code(204).send();
   });
-};
 
   // ── Database Reset (admin only) ────────────────────────────────────────────
   // DELETE /portal/admin/reset-data
@@ -253,3 +252,4 @@ module.exports = async function (fastify) {
       client.release();
     }
   });
+};

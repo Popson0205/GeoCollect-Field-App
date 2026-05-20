@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import TopNav from "@/components/TopNav";
+import TopNav from "../../components/TopNav";
 import { ArrowRight, Plus, Map, FileText, Upload, BarChart2, Clock, Activity } from "lucide-react";
 
 const ICON_BG: Record<string, string> = {

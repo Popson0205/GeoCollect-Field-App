@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import TopNav from "@/components/TopNav";
+import TopNav from "../../components/TopNav";
 import { Plus, Search, Eye, Edit, MoreHorizontal, Trash2, Share2 } from "lucide-react";
 
 const FORMS = [

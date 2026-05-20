@@ -61,6 +61,15 @@ const migrations = `
   ALTER TABLE form_schemas
     ADD COLUMN IF NOT EXISTS geofence JSONB DEFAULT NULL;
 
+  -- geofences array (JSONB) on form_schemas — used by forms route
+  ALTER TABLE form_schemas
+    ADD COLUMN IF NOT EXISTS geofences JSONB DEFAULT '[]'::jsonb;
+
+  -- visibility column for form sharing
+  ALTER TABLE form_schemas
+    ADD COLUMN IF NOT EXISTS visibility TEXT NOT NULL DEFAULT 'private'
+      CHECK (visibility IN ('private','project','organization','public'));
+
   CREATE TABLE IF NOT EXISTS features (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     form_schema_id UUID REFERENCES form_schemas(id) ON DELETE CASCADE,

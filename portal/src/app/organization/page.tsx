@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import TopNav from "@/components/TopNav";
+import TopNav from "../../components/TopNav";
 import { Users, Settings, Shield, CreditCard, BarChart2, Plus, Search, MoreHorizontal, Mail, CheckCircle2 } from "lucide-react";
 
 type OrgTab = "overview"|"members"|"licenses"|"status"|"settings";

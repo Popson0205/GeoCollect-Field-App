@@ -1,13 +1,5 @@
 # render.yaml — GeoCollect Field App Platform
-# One-click blueprint deploy: render blueprint apply
-# Everything auto-wires — no manual env vars needed.
-#
-# Database: Render managed Postgres 16 (fully auto-injected via fromDatabase)
-# Redis:    Render managed Redis     (fully auto-injected via fromService)
-#
-# OPTIONAL after deploy (add in Render dashboard if you want these features):
-#   SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS  → invite emails
-#   MINIO_ENDPOINT / MINIO_ACCESS_KEY / MINIO_SECRET_KEY → photo storage
+# One-click blueprint deploy — everything auto-wires, no manual env vars needed.
 
 databases:
   - name: geocollect-db
@@ -15,6 +7,7 @@ databases:
     user: geocollect
     plan: starter
     postgresMajorVersion: "16"
+    ipAllowList: []  # Allow all connections (Render services connect internally)
 
 services:
 
@@ -23,6 +16,7 @@ services:
     name: geocollect-redis
     plan: starter
     maxmemoryPolicy: noeviction
+    ipAllowList: []  # Allow all connections
 
   # ── Fastify API ───────────────────────────────────────────────────────────
   - type: web

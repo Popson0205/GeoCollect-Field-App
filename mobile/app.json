@@ -1,0 +1,95 @@
+{
+  "expo": {
+    "name": "GeoCollect Field",
+    "slug": "geocollect-field",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a56db"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.geemap.geocollect",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "GeoCollect needs your location to record GPS coordinates for field data collection.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "GeoCollect needs background location access for GPS track recording.",
+        "NSLocationAlwaysUsageDescription": "GeoCollect needs background location access for GPS track recording.",
+        "NSCameraUsageDescription": "GeoCollect needs camera access to capture site photos.",
+        "NSPhotoLibraryUsageDescription": "GeoCollect needs photo library access to attach existing photos to submissions.",
+        "NSPhotoLibraryAddUsageDescription": "GeoCollect saves captured photos to your photo library."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a56db"
+      },
+      "package": "com.geemap.geocollect",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_MEDIA_IMAGES",
+        "RECORD_AUDIO",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION"
+      ],
+      "versionCode": 1
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "GeoCollect needs your location for GPS data collection and geofencing.",
+          "locationAlwaysPermission": "GeoCollect needs background location for GPS track recording.",
+          "locationWhenInUsePermission": "GeoCollect needs your location for GPS data collection.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "GeoCollect needs camera access to capture site photos."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "GeoCollect needs access to your photos to attach them to submissions."
+        }
+      ],
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "GeoCollect needs camera access to scan barcodes and QR codes."
+        }
+      ]
+    ],
+    "scheme": "geocollect",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "your-eas-project-id"
+      }
+    }
+  }
+}

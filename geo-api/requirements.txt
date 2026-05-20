@@ -1,0 +1,11 @@
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+psycopg2-binary==2.9.9
+shapely==2.0.4
+pyproj==3.6.1
+fiona==1.9.6
+geopandas==0.14.4
+python-jose[cryptography]==3.3.0
+httpx==0.27.0
+python-dotenv==1.0.1
+setuptools>=69.0.0

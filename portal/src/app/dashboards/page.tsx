@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import TopNav from "@/components/TopNav";
+import TopNav from "../../components/TopNav";
 import { Plus, Trash2, Settings, Save, CheckCircle2, BarChart2, LineChart, PieChart, Map, Table2, Hash, Type } from "lucide-react";
 
 type WType = "bar"|"line"|"pie"|"map"|"table"|"stat"|"text";

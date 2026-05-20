@@ -1,22 +1,19 @@
 # render.yaml — GeoCollect Field App Platform
-# One-click blueprint deploy — everything auto-wires, no manual env vars needed.
-
-databases:
-  - name: geocollect-db
-    databaseName: geocollect
-    user: geocollect
-    plan: starter
-    postgresMajorVersion: "16"
-    ipAllowList: []  # Allow all connections (Render services connect internally)
+#
+# DATABASE: Neon (free tier) — https://neon.tech
+# After blueprint deploys, update DATABASE_URL on geocollect-api
+# and geocollect-geo-api with your Neon connection string.
+#
+# REDIS: Render managed (free starter tier — no payment needed)
 
 services:
 
-  # ── Redis ─────────────────────────────────────────────────────────────────
+  # ── Redis (free on Render) ────────────────────────────────────────────────
   - type: redis
     name: geocollect-redis
     plan: starter
     maxmemoryPolicy: noeviction
-    ipAllowList: []  # Allow all connections
+    ipAllowList: []
 
   # ── Fastify API ───────────────────────────────────────────────────────────
   - type: web
@@ -25,13 +22,11 @@ services:
     plan: starter
     rootDir: api
     buildCommand: npm ci
-    startCommand: node src/db/migrate.js && npm start
+    startCommand: npm start
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: geocollect-db
-          property: connectionString
+        value: "postgresql://replace_with_neon_url"
       - key: REDIS_URL
         fromService:
           type: redis
@@ -77,9 +72,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: geocollect-db
-          property: connectionString
+        value: "postgresql://replace_with_neon_url"
       - key: GEOSERVER_URL
         value: ""
       - key: GEOSERVER_USER

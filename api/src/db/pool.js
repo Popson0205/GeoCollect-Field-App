@@ -1,14 +1,16 @@
 const { Pool } = require('pg');
 
-// Neon requires SSL. The DATABASE_URL from Neon already includes
-// ?sslmode=require — we just make sure ssl is enabled for all envs.
+// Works with both Render Postgres and Neon:
+// - Render: DATABASE_URL has ?ssl=true or we detect render.com
+// - Neon:   DATABASE_URL has neon.tech — needs rejectUnauthorized:false
+const isNeon = process.env.DATABASE_URL && process.env.DATABASE_URL.includes('neon.tech');
+const isProduction = process.env.NODE_ENV === 'production';
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL && process.env.DATABASE_URL.includes('neon.tech')
-    ? { rejectUnauthorized: false }
-    : process.env.NODE_ENV === 'production'
-      ? { rejectUnauthorized: false }
-      : false,
+  ssl: isProduction
+    ? { rejectUnauthorized: false }  // Works for both Render Postgres and Neon
+    : false,
   max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 5000,

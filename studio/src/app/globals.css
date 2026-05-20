@@ -1,0 +1,224 @@
+/* studio/src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --color-primary:       #2563eb;
+    --color-primary-dark:  #1d4ed8;
+    --color-primary-light: #eff6ff;
+    --color-success:       #16a34a;
+    --color-warning:       #d97706;
+    --color-danger:        #dc2626;
+    --color-surface:       #ffffff;
+    --color-surface-2:     #f8fafc;
+    --color-border:        #e2e8f0;
+    --color-text:          #0f172a;
+    --color-text-muted:    #64748b;
+    --color-text-faint:    #94a3b8;
+    --sidebar-bg:          #0f172a;
+    --sidebar-border:      rgba(255,255,255,0.07);
+  }
+
+  html { font-size: 14px; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--color-text);
+    background: var(--color-surface-2);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+}
+
+@layer components {
+
+  /* ─── Buttons ─────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg font-medium text-sm
+           transition-all duration-150 cursor-pointer select-none whitespace-nowrap;
+  }
+  .btn:focus-visible {
+    @apply outline-none ring-2 ring-offset-1 ring-primary/50;
+  }
+  .btn:disabled {
+    @apply opacity-50 pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white shadow-sm
+           hover:bg-primary-dark active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply btn bg-white text-slate-700 border border-slate-200 shadow-sm
+           hover:bg-slate-50 active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-slate-600
+           hover:bg-slate-100 active:scale-[0.98];
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white shadow-sm
+           hover:bg-red-700 active:scale-[0.98];
+  }
+  .btn-danger-ghost {
+    @apply btn bg-transparent text-red-600 border border-red-200
+           hover:bg-red-50 active:scale-[0.98];
+  }
+  .btn-sm { @apply !px-2.5 !py-1.5 !text-xs; }
+  .btn-xs { @apply !px-2 !py-1 !text-xs !rounded-md; }
+  .btn-icon {
+    @apply btn !p-1.5 aspect-square justify-center;
+  }
+
+  /* ─── Cards ──────────────────────────────────────────── */
+  .card {
+    @apply bg-white rounded-xl border border-slate-200 shadow-sm;
+  }
+  .card-hover {
+    @apply card transition-shadow duration-150 hover:shadow-md hover:border-slate-300;
+  }
+  .card-inset {
+    @apply bg-slate-50 rounded-xl border border-slate-200;
+  }
+
+  /* ─── Inputs ─────────────────────────────────────────── */
+  .input {
+    @apply w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-800
+           placeholder:text-slate-400
+           focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary
+           transition-shadow duration-150;
+  }
+  .input-sm { @apply !px-2.5 !py-1.5 !text-xs; }
+  .input-error { @apply !border-red-400 !ring-red-200; }
+
+  select.input {
+    @apply appearance-none bg-no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 10px center;
+    padding-right: 2rem;
+  }
+
+  textarea.input { @apply resize-none; }
+
+  /* ─── Labels ─────────────────────────────────────────── */
+  .label {
+    @apply block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide;
+  }
+  .label-inline {
+    @apply text-sm font-medium text-slate-700;
+  }
+
+  /* ─── Badges ─────────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold;
+  }
+  .badge-blue    { @apply badge bg-blue-100 text-blue-700; }
+  .badge-green   { @apply badge bg-emerald-100 text-emerald-700; }
+  .badge-orange  { @apply badge bg-amber-100 text-amber-700; }
+  .badge-red     { @apply badge bg-red-100 text-red-700; }
+  .badge-slate   { @apply badge bg-slate-100 text-slate-600; }
+  .badge-purple  { @apply badge bg-violet-100 text-violet-700; }
+
+  /* ─── Tabs ───────────────────────────────────────────── */
+  .tab-bar {
+    @apply flex gap-0.5 border-b border-slate-200 px-1;
+  }
+  .tab-item {
+    @apply flex items-center gap-1.5 px-3.5 py-2.5 text-sm font-medium text-slate-500
+           border-b-2 border-transparent -mb-px
+           hover:text-slate-800 transition-colors cursor-pointer;
+  }
+  .tab-item.active {
+    @apply text-primary border-primary;
+  }
+
+  /* ─── Section headers ────────────────────────────────── */
+  .section-title {
+    @apply text-xs font-semibold text-slate-400 uppercase tracking-widest;
+  }
+
+  /* ─── Dividers ───────────────────────────────────────── */
+  .divider { @apply border-t border-slate-100 my-4; }
+
+  /* ─── Empty states ───────────────────────────────────── */
+  .empty-state {
+    @apply flex flex-col items-center justify-center text-center py-16 px-6 text-slate-400;
+  }
+  .empty-state-icon {
+    @apply w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center mb-4 text-slate-400;
+  }
+
+  /* ─── Sidebar nav ────────────────────────────────────── */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+           text-slate-400 hover:text-white hover:bg-white/10
+           transition-colors cursor-pointer;
+  }
+  .nav-item.active {
+    @apply bg-primary text-white;
+  }
+  .nav-item-section {
+    @apply px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-slate-600 mt-4 mb-1;
+  }
+
+  /* ─── Field card (form builder) ──────────────────────── */
+  .field-card {
+    @apply card p-4 border-l-4 border-primary/40
+           hover:border-primary transition-colors duration-150;
+  }
+  .field-card.dragging {
+    @apply shadow-xl ring-2 ring-primary/30 rotate-1 scale-[1.01];
+  }
+
+  /* ─── Option row (select editor) ─────────────────────── */
+  .option-row {
+    @apply flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50
+           border border-slate-200 hover:border-slate-300;
+    /* Note: add `group` class directly in JSX, not via @apply */
+  }
+
+  /* ─── Stat card ──────────────────────────────────────── */
+  .stat-card {
+    @apply card p-5 flex flex-col gap-1;
+  }
+  .stat-value {
+    @apply text-2xl font-bold text-slate-800 tabular-nums;
+  }
+  .stat-label {
+    @apply text-xs font-semibold text-slate-400 uppercase tracking-wide;
+  }
+  .stat-icon {
+    @apply w-9 h-9 rounded-xl flex items-center justify-center mb-2;
+  }
+
+  /* ─── Page header ────────────────────────────────────── */
+  .page-header {
+    @apply flex items-center justify-between pb-6 border-b border-slate-100 mb-6;
+  }
+  .page-title {
+    @apply text-xl font-bold text-slate-800;
+  }
+  .page-subtitle {
+    @apply text-sm text-slate-500 mt-0.5;
+  }
+
+  /* ─── Toolbar (studio top bar) ───────────────────────── */
+  .studio-toolbar {
+    @apply flex items-center justify-between px-5 py-3
+           bg-white border-b border-slate-200 h-14 shrink-0;
+  }
+
+  /* ─── Danger zone ────────────────────────────────────── */
+  .danger-zone {
+    @apply rounded-xl border border-red-200 bg-red-50 p-5;
+  }
+}

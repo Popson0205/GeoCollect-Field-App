@@ -1,0 +1,36 @@
+{
+  "name": "geocollect-api",
+  "version": "1.0.0",
+  "description": "GeoCollect Server — Fastify REST API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "migrate": "node src/db/migrate.js && node src/db/migrate-v5-multigeofence.js && node src/db/migrate-v6-api-keys.js && node src/db/migrate-v7-webhooks.js && node src/db/migrate-v8-scheduled-exports.js && node src/db/migrate-v9-portal-config.js",
+    "sync-worker": "node src/workers/syncWorker.js",
+    "webhook-worker": "node src/workers/webhookWorker.js",
+    "export-scheduler": "node src/workers/exportScheduler.js"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "@fastify/jwt": "^8.0.1",
+    "@fastify/multipart": "^8.1.0",
+    "@fastify/rate-limit": "^9.1.0",
+    "@fastify/swagger": "^8.14.0",
+    "@fastify/swagger-ui": "^3.0.0",
+    "bcryptjs": "^2.4.3",
+    "bullmq": "^5.4.2",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.26.2",
+    "fastify-plugin": "^4.5.1",
+    "minio": "^7.1.3",
+    "nodemailer": "^6.9.13",
+    "pg": "^8.11.3",
+    "uuid": "^9.0.1",
+    "ws": "^8.17.0",
+    "y-websocket": "^1.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

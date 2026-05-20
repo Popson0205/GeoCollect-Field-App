@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Map, Plus, Clock } from "lucide-react";
+import { Map, Plus } from "lucide-react";
 import Link from "next/link";
-import { api } from "../../lib/api";
+import { getUser } from "../../lib/api";
 import TopNav from "../../components/TopNav";
 
 function greeting() {
@@ -16,7 +16,7 @@ export default function PortalHomePage() {
   const [user, setUser] = useState<{ full_name: string } | null>(null);
 
   useEffect(() => {
-    api.get<any>("/auth/me").then(setUser).catch(() => {});
+    setUser(getUser());
   }, []);
 
   return (

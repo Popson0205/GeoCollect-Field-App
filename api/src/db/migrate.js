@@ -61,6 +61,20 @@ const migrations = `
   ALTER TABLE form_schemas
     ADD COLUMN IF NOT EXISTS geofence JSONB DEFAULT NULL;
 
+  -- Missing columns needed by forms route
+  ALTER TABLE form_schemas
+    ADD COLUMN IF NOT EXISTS geofences JSONB NOT NULL DEFAULT '[]'::jsonb;
+
+  ALTER TABLE form_schemas
+    ADD COLUMN IF NOT EXISTS visibility TEXT NOT NULL DEFAULT 'private'
+      CHECK (visibility IN ('private','project','organization','public'));
+
+  ALTER TABLE form_schemas
+    ADD COLUMN IF NOT EXISTS share_token TEXT;
+
+  ALTER TABLE form_schemas
+    ADD COLUMN IF NOT EXISTS schema JSONB NOT NULL DEFAULT '{}'::jsonb;
+
   -- geofences array (JSONB) on form_schemas — used by forms route
   ALTER TABLE form_schemas
     ADD COLUMN IF NOT EXISTS geofences JSONB DEFAULT '[]'::jsonb;

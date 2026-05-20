@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import TopNav from "@/components/TopNav";
+import TopNav from "../../../components/TopNav";
 import { Edit, Share2, Map, Download, Trash2, Globe, Lock, Users, BarChart2, Table2, ChevronRight } from "lucide-react";
 
 type DetailTab = "Overview" | "Data" | "Visualization" | "Settings" | "Share" | "Usage";

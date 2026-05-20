@@ -13,10 +13,10 @@ export default function MapViewerPage() {
     let map: any;
     (async () => {
       try {
-        const maplibre = await import("maplibre-gl");
-        await import("maplibre-gl/dist/maplibre-gl.css");
+        // @ts-ignore
+        const maplibregl = (await import("maplibre-gl")).default;
         if (!mapContainer.current) return;
-        map = new maplibre.Map({
+        map = new maplibregl.Map({
           container: mapContainer.current,
           style: {
             version: 8,
@@ -36,15 +36,16 @@ export default function MapViewerPage() {
         map.on("load", () => setMapLoaded(true));
       } catch (e) {
         console.error("Map init error:", e);
+        setMapLoaded(true);
       }
     })();
-    return () => map?.remove();
+    return () => { try { map?.remove(); } catch {} };
   }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col">
       <TopNav user={user ?? undefined} />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden" style={{ height: "calc(100vh - 56px)" }}>
         {/* Sidebar */}
         <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
           <div className="p-4 border-b border-gray-100">
@@ -60,7 +61,6 @@ export default function MapViewerPage() {
             </p>
           </div>
         </div>
-
         {/* Map */}
         <div className="flex-1 relative">
           <div ref={mapContainer} className="absolute inset-0" />

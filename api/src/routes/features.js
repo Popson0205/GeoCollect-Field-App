@@ -3,9 +3,10 @@
 const pool = require('../db/pool');
 const { Queue } = require('bullmq');
 
-const webhookQueue = new Queue('webhook-delivery', {
-  connection: { url: process.env.REDIS_URL || 'redis://localhost:6379' },
-});
+// Only connect to Redis if REDIS_URL is set — avoids ECONNREFUSED noise without Redis
+const webhookQueue = process.env.REDIS_URL
+  ? new Queue('webhook-delivery', { connection: { url: process.env.REDIS_URL } })
+  : null;
 
 
 async function checkGeofenceAndAssignment(client, formSchemaId, geometry, userId) {
@@ -81,7 +82,7 @@ async function isOrgMember(client, formSchemaId, userId) {
  */
 async function enqueueWebhook(event, projectId, featureId, formSchemaId, attributes) {
   try {
-    await webhookQueue.add(event, {
+    webhookQueue && await webhookQueue && webhookQueue.add(event, {
       projectId,
       event,
       payload: { id: featureId, form_schema_id: formSchemaId, attributes },

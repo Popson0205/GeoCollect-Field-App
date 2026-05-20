@@ -1,16 +1,30 @@
 # render.yaml — GeoCollect Field App Platform
-# Database: Neon (external) — set DATABASE_URL env var manually in Render dashboard
-# Redis: Render managed Redis
+# One-click blueprint deploy: render blueprint apply
+# Everything auto-wires — no manual env vars needed.
+#
+# Database: Render managed Postgres 16 (fully auto-injected via fromDatabase)
+# Redis:    Render managed Redis     (fully auto-injected via fromService)
+#
+# OPTIONAL after deploy (add in Render dashboard if you want these features):
+#   SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS  → invite emails
+#   MINIO_ENDPOINT / MINIO_ACCESS_KEY / MINIO_SECRET_KEY → photo storage
+
+databases:
+  - name: geocollect-db
+    databaseName: geocollect
+    user: geocollect
+    plan: starter
+    postgresMajorVersion: "16"
 
 services:
 
-  # ── Redis ──────────────────────────────────────────────────────────────────
+  # ── Redis ─────────────────────────────────────────────────────────────────
   - type: redis
     name: geocollect-redis
     plan: starter
     maxmemoryPolicy: noeviction
 
-  # ── Fastify API ────────────────────────────────────────────────────────────
+  # ── Fastify API ───────────────────────────────────────────────────────────
   - type: web
     name: geocollect-api
     runtime: node
@@ -20,10 +34,10 @@ services:
     startCommand: node src/db/migrate.js && npm start
     healthCheckPath: /health
     envVars:
-      # DATABASE_URL: Set manually → paste your Neon connection string
-      # Format: postgresql://user:password@ep-xxx.us-east-2.aws.neon.tech/geocollect?sslmode=require
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: geocollect-db
+          property: connectionString
       - key: REDIS_URL
         fromService:
           type: redis
@@ -37,14 +51,12 @@ services:
         value: "3001"
       - key: APP_URL
         value: "https://geocollect-field-app.onrender.com"
-      # MinIO / S3 for attachments (optional — leave blank to disable)
       - key: MINIO_ENDPOINT
         value: ""
       - key: MINIO_ACCESS_KEY
         value: ""
       - key: MINIO_SECRET_KEY
         value: ""
-      # SMTP for invite emails (optional — leave blank to skip emails)
       - key: SMTP_HOST
         value: ""
       - key: SMTP_PORT
@@ -52,7 +64,7 @@ services:
       - key: SMTP_USER
         value: ""
       - key: SMTP_PASS
-        sync: false
+        value: ""
       - key: SMTP_FROM
         value: "noreply@geocollect.app"
       - key: API_KEY_RATE_LIMIT_PER_HOUR
@@ -60,7 +72,7 @@ services:
       - key: WEBHOOK_MAX_FAILURES
         value: "10"
 
-  # ── FastAPI Geo API ────────────────────────────────────────────────────────
+  # ── FastAPI Geo API ───────────────────────────────────────────────────────
   - type: web
     name: geocollect-geo-api
     runtime: python
@@ -71,7 +83,9 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: geocollect-db
+          property: connectionString
       - key: GEOSERVER_URL
         value: ""
       - key: GEOSERVER_USER
@@ -81,7 +95,7 @@ services:
       - key: API_SERVICE_URL
         value: "https://geocollect-api.onrender.com"
 
-  # ── Next.js Studio (Form Builder) ─────────────────────────────────────────
+  # ── Next.js Studio (Form Builder) ────────────────────────────────────────
   - type: web
     name: geocollect-studio
     runtime: node
@@ -102,7 +116,7 @@ services:
       - key: NEXT_PUBLIC_FIELD_URL
         value: "https://geocollect-field.onrender.com"
 
-  # ── React PWA Field (web version) ─────────────────────────────────────────
+  # ── React PWA Field (web version) ────────────────────────────────────────
   - type: web
     name: geocollect-field
     runtime: node
@@ -119,7 +133,7 @@ services:
       - key: VITE_GEO_API_URL
         value: "https://geocollect-geo-api.onrender.com"
 
-  # ── Portal ─────────────────────────────────────────────────────────────────
+  # ── Portal ────────────────────────────────────────────────────────────────
   - type: web
     name: geocollect-portal
     runtime: node

@@ -1,7 +1,6 @@
 {
   "name": "geocollect-portal",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build && cp -r .next/static .next/standalone/.next/static",
@@ -17,15 +16,13 @@
     "lucide-react": "^0.488.0",
     "clsx": "^2.1.1",
     "js-cookie": "^3.0.5",
-    "swr": "^2.2.5"
-  },
-  "devDependencies": {
+    "swr": "^2.2.5",
+    "tailwindcss": "^3.4.3",
+    "postcss": "^8",
+    "autoprefixer": "^10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "typescript": "^5",
-    "tailwindcss": "^3.4.3",
-    "postcss": "^8",
-    "autoprefixer": "^10"
+    "typescript": "^5"
   }
 }

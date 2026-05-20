@@ -6,13 +6,8 @@ const app = Fastify({ logger: true });
 
 // ── Plugins ───────────────────────────────────────────────────────────────────
 app.register(require('@fastify/cors'), {
-  origin: [
-    'https://geocollect-portal.onrender.com',
-    'https://geocollect-studio.onrender.com',
-    'http://localhost:3000',
-    'http://localhost:3004',
-    /geocollect/,  // Mobile app deep links
-  ],
+  // Allow all origins — React Native mobile sends no Origin header
+  origin: (origin, cb) => cb(null, true),
   credentials: true,
 });
 app.register(require('./plugins/jwt'));

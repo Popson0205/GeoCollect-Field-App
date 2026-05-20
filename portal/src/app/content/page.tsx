@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import TopNav from "@/components/TopNav";
+import TopNav from "../../components/TopNav";
 import {
   Search, Plus, LayoutList, LayoutGrid,
   Globe, Lock, Users, Share2, MoreHorizontal,
